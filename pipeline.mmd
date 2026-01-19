@@ -1,4 +1,3 @@
-```mermaid
 flowchart LR
   A[External System] -->|HTTP Webhook| B[WebhookGateway.Api]
   B -->|Publish| SB[(Service Bus Topic: t-webhooks)]
