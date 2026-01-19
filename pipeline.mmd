@@ -1,0 +1,15 @@
+```mermaid
+flowchart LR
+  A[External System] -->|HTTP Webhook| B[WebhookGateway.Api]
+  B -->|Publish| SB[(Service Bus Topic: t-webhooks)]
+
+  SB -->|sub-audit<br/>(no filter)| AP[AuditProcessor Function]
+  AP -->|Insert| COS[(Cosmos DB: audit events)]
+
+  SB -->|sub-users<br/>(SQL filter by eventType)| UP[UserProcessor Function]
+  UP -->|Process / future actions| UOUT[User domain processing]
+
+  SB -->|sub-billing<br/>eventType LIKE 'invoice.%'| BP[BillingProcessor Function]
+  BP -->|Enqueue job| Q[(Storage Queue: q-billing-jobs)]
+  Q -->|QueueTrigger| BW[BillingWorker Function]
+  BW -->|Process billing job| BOUT[Billing processing result]

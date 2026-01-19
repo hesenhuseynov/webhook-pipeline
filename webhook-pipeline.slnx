@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/WebhookGateway.Api/WebhookGateway.Api/WebhookGateway.Api.csproj" />
+    <Project Path="src/WebhookProcessor.Function/WebhookProcessor.Function/WebhookProcessor.Function.csproj" />
+  </Folder>
+</Solution>

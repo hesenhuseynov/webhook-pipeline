@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="ALGORT/ALGORT.csproj" />
+  <Project Path="WebhookProcessor.Function/WebhookProcessor.Function.csproj" />
+</Solution>

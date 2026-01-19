@@ -1,0 +1,15 @@
+@baseUrl = https://localhost:7287
+@ingressKey = supersecret
+@tenantId = dev
+@eventType = invoice.created
+  
+POST {{baseUrl}}/webhooks
+Content-Type: application/json
+x-ingress-key: {{ingressKey}}
+x-tenant-id: {{tenantId}}=
+x-event-type: {{eventType}}
+
+{
+  "id": "evt-001",
+  "email": "ali@example.com"
+ }
