@@ -1,14 +1,17 @@
 flowchart LR
-    A[External System] -->|HTTP Webhook| B[WebhookGateway.Api]
-    B -->|Publish| SB[Service Bus Topic: t-webhooks]
+  A[External System] -->|HTTP Webhook| B[WebhookGateway.Api]
+  B -->|Publish| SB[Service Bus Topic t-webhooks]
 
-    SB -->|sub-audit (no filter)| AP[AuditProcessor Function]
-    AP -->|Insert| COS[Cosmos DB: audit events]
+  SB --> SA[sub-audit]
+  SA --> AP[AuditProcessor Function]
+  AP --> COS[Cosmos DB audit events]
 
-    SB -->|sub-users (SQL filter: eventType)| UP[UserProcessor Function]
-    UP -->|Process / future actions| UOUT[User domain processing]
+  SB --> SU[sub-users]
+  SU --> UP[UserProcessor Function]
+  UP --> UOUT[User domain processing]
 
-    SB -->|sub-billing (eventType LIKE invoice.*)| BP[BillingProcessor Function]
-    BP -->|Enqueue job| Q[Storage Queue: q-billing-jobs]
-    Q -->|QueueTrigger| BW[BillingWorker Function]
-    BW -->|Process billing job| BOUT[Billing processing result]
+  SB --> SBIL[sub-billing]
+  SBIL --> BP[BillingProcessor Function]
+  BP -->|Enqueue job| Q[Storage Queue q-billing-jobs]
+  Q -->|QueueTrigger| BW[BillingWorker Function]
+  BW --> BOUT[Billing processing result]
