@@ -1,4 +1,14 @@
-local.settings.json
+# Build
 bin/
 obj/
 .vs/
+
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+**/local.settings.json
+**/appsettings.Development.json
+**/appsettings.*.json
+**/appsettings.json

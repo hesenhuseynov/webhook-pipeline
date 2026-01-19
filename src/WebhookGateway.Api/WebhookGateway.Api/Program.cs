@@ -35,7 +35,6 @@ namespace WebhookGateway.Api
             });
 
             builder.Services.AddSingleton<ServiceBusPublisher>();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddSwaggerGen();
             builder.Services.AddEndpointsApiExplorer();
             var app = builder.Build();
@@ -46,12 +45,10 @@ namespace WebhookGateway.Api
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-            //app.UseHttpsRedirection();
 
             //app.UseAuthorization();
             app.MapGet("/health", () => Results.Ok(new { ok = true }));
 
-            // Webhook ingress
             app.MapPost("/webhooks", async (
                 HttpRequest request,
                 ServiceBusPublisher publisher,
@@ -59,21 +56,16 @@ namespace WebhookGateway.Api
                 CancellationToken ct) =>
             {
                 var auth = authOpt.Value;
-                // 1) Ingress key check
+            
                 if (!request.Headers.TryGetValue(auth.HeaderName, out var key) || key != auth.IngressKey)
                     return Results.Unauthorized();
-                // 2) TenantId + EventType haradan gəlir?
-                // sadə: header-lardan alaq.
-                // Istəsən query/body-dan da alarsan.
                 var tenantId = request.Headers["x-tenant-id"].ToString();
                 if (string.IsNullOrWhiteSpace(tenantId)) tenantId = "dev";
                 var eventType = request.Headers["x-event-type"].ToString();
                 if (string.IsNullOrWhiteSpace(eventType)) eventType = "audit";
-                // 3) Body oxu
                 using var reader = new StreamReader(request.Body);
                 var body = await reader.ReadToEndAsync(ct);
                 if (string.IsNullOrWhiteSpace(body)) body = "{}";
-                // 4) Service Bus-a publish
                 var messageId = await publisher.PublishAsync(tenantId, eventType, body, ct);
                 return Results.Ok(new WebHookingestResult(true, messageId, tenantId, eventType));
             });

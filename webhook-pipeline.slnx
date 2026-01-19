@@ -1,4 +1,16 @@
 <Solution>
+  <Folder Name="/diagrams/">
+    <File Path="pipeline.mmd" />
+  </Folder>
+  <Folder Name="/docs/">
+    <File Path="architecture.md" />
+    <File Path="runbook.md" />
+    <File Path="troubleshooting.md" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+    <File Path="README.md" />
+  </Folder>
   <Folder Name="/src/">
     <Project Path="src/WebhookGateway.Api/WebhookGateway.Api/WebhookGateway.Api.csproj" />
     <Project Path="src/WebhookProcessor.Function/WebhookProcessor.Function/WebhookProcessor.Function.csproj" />

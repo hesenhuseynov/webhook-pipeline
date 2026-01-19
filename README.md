@@ -1,13 +1,5 @@
 
-**Qeyd:** `sub-users` üçün çıxışı “future actions” kimi qoydum — çünki real həyatda bu subscription adətən “user.created / user.updated” kimi event-lərə gedir və downstream integration olur. Səndə hazırda nə edirsənsə, ora uyğunlaşdırarıq.
 
----
-
-## ✅ README.md (FULL – audit + users + billing, professional)
-
-> Fayl: `README.md`
-
-```md
 # Webhook Pipeline (API → Service Bus Topic → Azure Functions → Cosmos DB + Storage Queue)
 
 This repository demonstrates an event-driven webhook processing pipeline on Azure using:
